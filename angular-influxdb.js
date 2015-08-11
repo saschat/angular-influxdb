@@ -38,7 +38,7 @@ angular.module('influxdb', ['ngResource'])
       }
     };
   })
-  .factory('iQ', ['influxdb', function(influxdb){
+  .factory('iq', ['influxdb', function(influxdb){
     return {
       raw: function(query_str, db, callback){
         influxdb.query(query_str, db)

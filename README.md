@@ -9,7 +9,7 @@ bower install angular-influxdb
 ### Usage:
 ```
 angular
-  .module('yourModuleName', ['influxdb', 'iQ'])
+  .module('yourModuleName', ['influxdb'])
   .config(function(influxdbProvider){
     influxdbProvider
       .setUsername('root')
@@ -17,8 +17,8 @@ angular
       .setHost('localhost')
       .setPort('8086');
   })
-  .controller('yourCtrlName', ['influxdb', 'iQ',
-    function(influxdb, iQ){
+  .controller('yourCtrlName', ['influxdb', 'iq',
+    function(influxdb, iq){
       // direct query on resource
       influxdb.query(query_str, db)
         .$promise.then(function (result) {
@@ -29,12 +29,12 @@ angular
         /* do something with values and column names */
       };
       // raw query
-      iQ.raw(query_str, db, callback);
+      iq.raw(query_str, db, callback);
       // select queries
-      iQ.selectAll(measurement, db, callback);
-      iQ.selectAllSince(measurement, startdate, db, callback);
+      iq.selectAll(measurement, db, callback);
+      iq.selectAllSince(measurement, startdate, db, callback);
       var since = '1h'; // returns values from last hour
-      iQ.selectAllRecent(measurement, since, db, callback);
+      iq.selectAllRecent(measurement, since, db, callback);
     }
   ]);
 
