@@ -1,6 +1,11 @@
 # angular-influxdb
 Angular provider to connect to an Influx DB.
 
+### Installation:
+```
+bower install angular-influxdb
+```
+
 ### Usage:
 ```
 angular
@@ -30,6 +35,7 @@ angular
       iQ.selectAllSince(measurement, startdate, db, callback);
       var since = '1h'; // returns values from last hour
       iQ.selectAllRecent(measurement, since, db, callback);
-    }]);
+    }
+  ]);
 
 ```
