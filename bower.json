@@ -3,7 +3,7 @@
   "main": [
     "angular-influxdb.js"
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/saschat/angular-influxdb",
   "repository": {
     "type": "git",
