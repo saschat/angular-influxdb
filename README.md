@@ -15,7 +15,8 @@ angular
       .setUsername('root')
       .setPassword('root')
       .setHost('localhost')
-      .setPort('8086');
+      .setPort('8086')
+      .setVersion(0.9);
   })
   .controller('yourCtrlName', ['influxdb', 'iq',
     function(influxdb, iq){
