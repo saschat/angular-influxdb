@@ -8,6 +8,7 @@ angular.module('influxdb', ['ngResource'])
     var pwd = 'root';
     var host = 'localhost';
     var port = '8086';
+    var version = 0.9;
     return {
       setUsername: function (username) {
         user = username;
@@ -25,14 +26,38 @@ angular.module('influxdb', ['ngResource'])
         port = prt;
         return this;
       },
+      setVersion: function (ver) {
+        version = ver;
+        return this;
+      },
       $get: function ($resource) {
-        return {
-          query: function (query, db) {
-            var url =
-              'http://' + host + ':' + port +
-              '/query?q=' + query + '&db=' + db +
-              '&u=' + user + '&p=' + pwd;
-            return $resource(url).get();
+        var getVersion = function(){
+          return version;
+        };
+        if(version < 0.9){
+          return {
+            getVersion: getVersion,
+            query: function(query, db){
+              var url =
+                'http://' + host + ':' + port +
+                '/db/' + db + '/series?' +
+                'u=' + user + '&p=' + pwd +
+                '&q=' + query;
+
+              return $resource(url).query();
+            }
+          }
+        }
+        else{
+          return {
+            getVersion: getVersion,
+            query: function(query, db){
+              var url =
+                'http://' + host + ':' + port +
+                '/query?q=' + query + '&db=' + db +
+                '&u=' + user + '&p=' + pwd;
+              return $resource(url).get();
+            }
           }
         }
       }
@@ -41,13 +66,22 @@ angular.module('influxdb', ['ngResource'])
   .factory('iq', ['influxdb', function(influxdb){
     return {
       raw: function(query_str, db, callback){
+        var version = influxdb.getVersion();
         influxdb.query(query_str, db)
           .$promise.then(function (result) {
             var values = [];
             var columns = [];
-            if("series" in result.results[0] && "values" in result.results[0].series[0]) {
-              values = result.results[0].series[0].values;
-              columns = result.results[0].series[0].columns;
+            if(version < 0.9){
+              if(result.length > 0) {
+                values = result[0].points;
+                columns = result[0].columns;
+              }
+            }
+            else{
+              if("series" in result.results[0] && "values" in result.results[0].series[0]){
+                values = result.results[0].series[0].values;
+                columns = result.results[0].series[0].columns;
+              }
             }
             callback(values, columns);
           });
