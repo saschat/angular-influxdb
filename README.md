@@ -1,5 +1,5 @@
 # angular-influxdb
-Angular provider to connect to an Influx DB version 0.9+. Feel free to contribute.
+Angular provider to connect to an Influx DB. It supports both, the InfluxDB version 0.9 API as well as older versions (tested with version 0.8). Feel free to contribute.
 
 ### Installation:
 ```
