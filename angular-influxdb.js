@@ -8,6 +8,7 @@ angular.module('influxdb', ['ngResource'])
     var pwd = 'root';
     var host = 'localhost';
     var port = '8086';
+    var ssl = false;
     var version = 0.9;
     return {
       setUsername: function (username) {
@@ -30,6 +31,10 @@ angular.module('influxdb', ['ngResource'])
         version = ver;
         return this;
       },
+       setSSL: function (s) {
+        ssl = s;
+        return this;
+      },    
       $get: function ($resource) {
         var getVersion = function(){
           return version;
@@ -39,7 +44,7 @@ angular.module('influxdb', ['ngResource'])
             getVersion: getVersion,
             query: function(query, db){
               var url =
-                'http://' + host + ':' + port +
+                (ssl ? 'https' : 'http') + '://' + host + ':' + port +
                 '/db/' + db + '/series?' +
                 'u=' + user + '&p=' + pwd +
                 '&q=' + query;
@@ -53,7 +58,7 @@ angular.module('influxdb', ['ngResource'])
             getVersion: getVersion,
             query: function(query, db){
               var url =
-                'http://' + host + ':' + port +
+                (ssl ? 'https' : 'http') + '://' + host + ':' + port +
                 '/query?q=' + query + '&db=' + db +
                 '&u=' + user + '&p=' + pwd;
               return $resource(url).get();
