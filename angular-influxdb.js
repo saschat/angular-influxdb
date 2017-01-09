@@ -51,7 +51,7 @@ angular.module('influxdb', ['ngResource'])
 
               return $resource(url).query();
             }
-          }
+          };
         }
         else{
           return {
@@ -63,7 +63,7 @@ angular.module('influxdb', ['ngResource'])
                 '&u=' + user + '&p=' + pwd;
               return $resource(url).get();
             }
-          }
+          };
         }
       }
     };
